@@ -28,6 +28,10 @@ class DataLoader:
             pd.DataFrame: Загруженный датафрейм
         """
         self.df = pd.read_csv(self.data_path)
+        
+        # Преобразование статуса кредита в числовой формат
+        self.df['loan_status'] = (self.df['loan_status'] == "Fully Paid").astype(int)
+        
         return self.df
     
     def get_feature_lists(self) -> Tuple[list, list]:
@@ -38,10 +42,11 @@ class DataLoader:
             Tuple[list, list]: (числовые признаки, категориальные признаки)
         """
         numeric_features = ['loan_amnt', 'int_rate', 'installment', 'annual_inc', 
-                          'dti', 'open_acc', 'pub_rec', 'revol_bal', 'total_acc']
+                          'dti', 'open_acc', 'pub_rec', 'revol_bal', 'total_acc',
+                          'revol_util']
         
-        categorical_features = ['grade', 'home_ownership', 'verification_status', 
-                              'purpose', 'term']
+        categorical_features = ['grade', 'sub_grade', 'emp_length', 'home_ownership', 
+                              'verification_status', 'purpose', 'term']
         
         return numeric_features, categorical_features
     
@@ -54,7 +59,7 @@ class DataLoader:
         """
         if self.df is None:
             self.load_data()
-        return (self.df['loan_status'] == "Fully Paid").astype(int)
+        return self.df['loan_status']
     
     def get_features(self) -> pd.DataFrame:
         """

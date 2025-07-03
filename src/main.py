@@ -8,6 +8,7 @@ from data.data_loader import DataLoader
 from visualization.visualizer import LoanVisualizer
 from preprocessing.preprocessor import DataPreprocessor
 from models.model_trainer import ModelTrainer
+from analysis.feature_analyzer import FeatureAnalyzer
 
 def run_analysis(steps: str) -> None:
     """
@@ -21,6 +22,7 @@ def run_analysis(steps: str) -> None:
     visualizer = LoanVisualizer()
     preprocessor = DataPreprocessor()
     model_trainer = ModelTrainer()
+    feature_analyzer = FeatureAnalyzer()
     
     # Выполнение выбранных этапов
     if '1' in steps:
@@ -35,7 +37,14 @@ def run_analysis(steps: str) -> None:
         numeric_features, categorical_features = data_loader.get_feature_lists()
         visualizer.create_all_visualizations(df, numeric_features, categorical_features)
     
-    if '3' in steps or '4' in steps:
+    if '3' in steps:
+        if not '1' in steps:
+            df = data_loader.load_data()
+            
+        # Углубленный анализ признаков
+        feature_analyzer.run_full_analysis(df)
+    
+    if '4' in steps or '5' in steps:
         if not '1' in steps:
             df = data_loader.load_data()
         
@@ -48,7 +57,7 @@ def run_analysis(steps: str) -> None:
             X, y, numeric_features, categorical_features
         )
         
-        if '4' in steps:
+        if '5' in steps:
             # Обучение и оценка модели
             model_trainer.train_and_evaluate(X_train, X_test, y_train, y_test)
 
@@ -60,15 +69,16 @@ def main():
     steps = input("""
 Выберите этапы для выполнения (введите номера через пробел):
 1. Загрузка данных
-2. Создание визуализаций
-3. Подготовка данных
-4. Обучение и оценка модели
-5. Выполнить все этапы
+2. Создание базовых визуализаций
+3. Углубленный анализ признаков
+4. Подготовка данных
+5. Обучение и оценка моделей
+6. Выполнить все этапы
 
 Ваш выбор: """)
     
-    if '5' in steps or 'all' in steps.lower():
-        steps = '1 2 3 4'
+    if '6' in steps or 'all' in steps.lower():
+        steps = '1 2 3 4 5'
     
     run_analysis(steps)
 
