@@ -1,0 +1,58 @@
+# Jupyter Notebooks
+*.ipynb
+.ipynb_checkpoints/
+
+# Данные
+source/
+*.csv
+*.xlsx
+*.xls
+*.parquet
+*.feather
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Виртуальное окружение
+venv/
+env/
+ENV/
+
+# Модели
+models/
+*.joblib
+*.pkl
+*.h5
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Логи
+*.log
+logs/
+
+# Системные файлы
+.DS_Store
+Thumbs.db 
